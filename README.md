@@ -20,7 +20,8 @@
 
 ## To Do:
 
-- [ ] Add update and delete functionality
+- [x] Add update and delete functionality
+- [ ] split up the CreatureList into a ListView and a ListItem component
 - [ ] Render collection-items conditionally for the CreatureList (do not show avatar if non set, disable info link if null)
 - [ ] Add form validation for the Create/ Update form
 - [ ] (OPTIONAL) create useCreatureFormInputState hook to easily read form values from the create/ update form
@@ -28,6 +29,10 @@
 - [ ] create x-icon for website icon something nature themed
 - [ ] decide on colour scheme, something nature themed
 - [ ] decide on font from either google fonts or elsewhere
+
+## Look into:
+
+- [ ] can we somehow get users to upload photos to the website local storage
 
 ## Bugs:
 

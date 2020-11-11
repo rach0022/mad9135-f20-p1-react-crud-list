@@ -29,7 +29,7 @@ function App() {
         {/* Now the Router Switch To Switch between pages */}
         <Switch>
           <Route exact path="/">
-            <CreatureList catalog={catalog} />
+            <CreatureList catalog={catalog} setter={setCatalog} />
           </Route>
 
           <Route path="/add">
