@@ -1,19 +1,22 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import cuid from 'cuid'
 import './App.css';
 // import components
 import AppNav from './componenets/AppNav.js'
 import CreatureList from './componenets/CreatureList.js'
+import useLocalStorageState from './useLocalStorageState';
 
 function App() {
   // test catalog switch to useLocalStorageState in the future to recall from localStorage
-  const catalog = [
+  const [catalog, setCatalog] = useLocalStorageState("CREATURECATALOG-CATALOG", [
     {
-      id: 1,
+      id: cuid(),
       name: "Spotter",
       type: "Mammal",
       imageURL: "https://placedog.net/500",
       infoURL: "https://en.wikipedia.org/wiki/Dog"
-    }]
+    }
+  ])
 
   // return the generated jsx app 
   return (
