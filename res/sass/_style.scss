@@ -1,0 +1,9 @@
+// Run the below to compile SASS
+// sass [--watch] res/sass/_style.scss:src/App.css
+// This is where all the override styles for Materilize-css will be done
+@charset "utf-8";
+@import "./materialize.scss";
+@import "variables";  // import variables after materilize to ovveride any colours
+@import "mixins";
+@import "fonts";
+

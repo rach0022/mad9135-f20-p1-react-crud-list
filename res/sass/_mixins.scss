@@ -1,0 +1,8 @@
+//start of mixins definitions
+//initally copied over from tundra app
+@mixin center($direction) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+}
