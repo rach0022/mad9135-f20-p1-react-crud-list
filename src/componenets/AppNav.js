@@ -5,11 +5,11 @@ import { NavLink } from 'react-router-dom'
 // made using materialize-css 
 function AppNav() {
     return (
-        <nav className="AppNav">
+        <nav className="AppNav green">
             <div className="nav-wrapper">
-                <a href="#" className="brand-logo"><i className="material-icons">nature</i>Creature Catalog</a>
+                <NavLink to="/" className="brand-logo"><i className="material-icons">nature</i>Creature Catalog</NavLink>
                 <ul id="nav-mobile" className="right hide-on-med-and-down">
-                    <li><a href="#"><i className="material-icons left">add</i>Add</a></li>
+                    <li><NavLink to="add"><i className="material-icons left">add</i></NavLink></li>
                 </ul>
             </div>
         </nav>
