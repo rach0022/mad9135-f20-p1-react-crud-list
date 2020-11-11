@@ -18,7 +18,7 @@ function CreatureList({ catalog, error }) {
     // now that we have the confirmed no errors and we have a catlog lets loop through
     // and map each creature to an CreatureList item
     const creatureElements = catalog.map(creature =>
-        <li key={creature.id} className="collection-item avatar">
+        <li key={creature.id} className="collection-item avatar hoverable">
             <img src={creature.imageURL} alt={`The ${creature.name}`} className="circle" />
             <span className="title">{creature.name}</span>
             <p> {creature.type} <br />

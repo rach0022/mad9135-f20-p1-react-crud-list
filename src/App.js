@@ -4,7 +4,8 @@ import './App.css';
 // import components
 import AppNav from './componenets/AppNav.js'
 import CreatureList from './componenets/CreatureList.js'
-import useLocalStorageState from './useLocalStorageState';
+import CreatureForm from './componenets/CreatureForm.js'
+import useLocalStorageState from './hooks/useLocalStorageState';
 
 function App() {
   // test catalog switch to useLocalStorageState in the future to recall from localStorage
@@ -31,6 +32,9 @@ function App() {
             <CreatureList catalog={catalog} />
           </Route>
 
+          <Route path="/add">
+            <CreatureForm data={catalog} setter={setCatalog} />
+          </Route>
 
         </Switch>
       </Router>
