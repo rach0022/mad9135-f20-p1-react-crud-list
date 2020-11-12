@@ -3,7 +3,7 @@ import cuid from 'cuid'
 import './App.css';
 // import components
 import AppNav from './componenets/AppNav.js'
-import CreatureList from './componenets/CreatureList.js'
+import CreatureListView from './componenets/CreatureListView.js'
 import CreatureForm from './componenets/CreatureForm.js'
 import useLocalStorageState from './hooks/useLocalStorageState';
 
@@ -19,6 +19,9 @@ function App() {
     }
   ])
 
+  // set up all the types we want for our list items
+  const CREATURE_TYPES = ['Mammal', 'Reptile', 'Bird', 'Fish', 'Amphibian', 'Insect', 'Arachnid', 'Plant', 'Fungus']
+
   // return the generated jsx app 
   return (
     <div className="App">
@@ -29,11 +32,11 @@ function App() {
         {/* Now the Router Switch To Switch between pages */}
         <Switch>
           <Route exact path="/">
-            <CreatureList catalog={catalog} setter={setCatalog} />
+            <CreatureListView data={catalog} setter={setCatalog} />
           </Route>
 
           <Route path="/add">
-            <CreatureForm data={catalog} setter={setCatalog} />
+            <CreatureForm data={catalog} setter={setCatalog} creatureTypes={CREATURE_TYPES} />
           </Route>
 
         </Switch>

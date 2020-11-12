@@ -3,9 +3,9 @@ import { useHistory } from 'react-router-dom'
 import M from 'materialize-css'
 import cuid from 'cuid'
 
-function CreatureForm({ data, setter }) {
+function CreatureForm({ data, setter, creatureTypes }) {
     // first lets initlize the types array and map all the names ianto html elements also get a reference to the history
-    const types = ['Mammal', 'Reptile', 'Bird', 'Fish', 'Amphibian', 'Insect', 'Arachnid', 'Plant', 'Fungus'].map((type, index) =>
+    const types = creatureTypes.map((type, index) =>
         <option value={type} key={`type_${index}`}>{type.toUpperCase()}</option>
     )
     const history = useHistory()
@@ -42,8 +42,8 @@ function CreatureForm({ data, setter }) {
             <form className="col s12" onSubmit={handleSubmit}>
                 <div className="row">
                     <div className="input-field col s12">
-                        <input placeholder="Name" id="name" type="text" className="validate" />
-                        <label htmlFor="name">Name</label>
+                        <input placeholder="Name" id="name" type="text" className="validate" required />
+                        <label htmlFor="name" data-error="No name set">Name</label>
                     </div>
                 </div>
                 <div className="row">
