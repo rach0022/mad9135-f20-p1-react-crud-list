@@ -19,9 +19,6 @@ function App() {
     }
   ])
 
-  // set up all the types we want for our list items
-  const CREATURE_TYPES = ['Mammal', 'Reptile', 'Bird', 'Fish', 'Amphibian', 'Insect', 'Arachnid', 'Plant', 'Fungus']
-
   // return the generated jsx app 
   return (
     <div className="App">
@@ -36,7 +33,7 @@ function App() {
           </Route>
 
           <Route path="/add">
-            <CreatureForm data={catalog} setter={setCatalog} creatureTypes={CREATURE_TYPES} />
+            <CreatureForm data={catalog} setter={setCatalog} hideForm={['', null]} />
           </Route>
 
         </Switch>

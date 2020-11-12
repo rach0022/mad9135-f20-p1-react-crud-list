@@ -1,31 +1,7 @@
 import React from 'react'
-import defaultImage from '../images/testLeaf.svg'
+import defaultImage from '../static/images/testLeaf.svg'
 
-function CreatureListItem({ data, setter }) {
-
-    // callback function to update an element in the data and set it to the data
-    function updateCreature(event) {
-        event.preventDefault()
-
-        // will eventually get this info from a form, for testing lets start with a static object
-        const newCreature = {
-            name: "Spotter",
-            type: "Mammal",
-            imageURL: "https://placedog.net/500",
-            infoURL: "https://en.wikipedia.org/wiki/Dog"
-        }
-
-        // get a reference to the array postion of the item in data from the attribute
-        // data-target and then set the new item at the position using the spread operator
-        // we will combine the old object with the new object and update any properties
-        // in the new object
-        const target = event.currentTarget.getAttribute('data-target')
-        data[target] = {
-            ...data[target],
-            ...newCreature
-        }
-        setter([...data])
-    }
+function CreatureListItem({ data, setter, setHideForm }) {
 
     // callback function to delete an item in the data when teh user clicks a button
     function deleteCreature(event) {
@@ -38,6 +14,14 @@ function CreatureListItem({ data, setter }) {
         setter([...data])
     }
 
+    //callback function to display the form when the user clicks a button and
+    // send the value of id to the editing form
+    function displayCreatureForm(event) {
+        event.preventDefault()
+        const index = event.currentTarget.getAttribute('data-target')
+        setHideForm(['', index, data[index]])
+    }
+
     // now that we have the confirmed no errors and we have a catlog lets loop through
     // and map each creature to an CreatureList item
     const creatureElements = data.map((creature, index) => {
@@ -46,6 +30,7 @@ function CreatureListItem({ data, setter }) {
         // image url we wil display those properties
         const img = (creature.imageURL) ? creature.imageURL : defaultImage
         const infoLink = (creature.infoURL) ? (<a href={creature.infoURL}>Info Page</a>) : null
+        const petBadge = (creature.isPet) ? (<span className="badge"><i className="material-icons">star</i></span>) : null
 
 
         return (
@@ -56,13 +41,14 @@ function CreatureListItem({ data, setter }) {
                     {infoLink}
                 </p>
                 <div className="secondary-content row">
-                    <button className="waves-effect waves-light btn col s6" data-target={index} onClick={updateCreature}>
+                    <button className="waves-effect waves-light btn col s6" data-target={index} onClick={displayCreatureForm}>
                         <i className="material-icons">edit</i>
                     </button>
                     <button className="waves-effect waves-light btn col s6" data-target={index} onClick={deleteCreature}>
                         <i className="material-icons">delete</i>
                     </button>
                 </div>
+                {petBadge}
             </li>
         )
     })

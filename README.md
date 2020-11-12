@@ -1,6 +1,7 @@
 # React CRUD
 
 > Building on what you have practised in earlier assignments, create a two-page React App that allows CRUD operations on a list of things. You can choose the topic for your list.
+> Topic, a pocket compendium for the user where they can record the local wildlife, flora and fauna to eventually develop their own personal Nature Journal
 
 ## Requirements:
 
@@ -14,7 +15,7 @@
   (ListView)
   (ListItem)
 
-- [ ] The properties of each list item should be editable.
+- [x] The properties of each list item should be editable.
 - [x] Each list item should have an option to remove it from the list.
 - [x] Use React Router to navigate between the List View and the New Item View.
 
@@ -22,18 +23,23 @@
 
 - [x] Add update and delete functionality
 - [x] split up the CreatureList into a ListView and a ListItem component
+- [x] add the selected creature's values when editing to the form as initial values | maybe switch to a useState or a custom hook?
 - [ ] Render collection-items conditionally for the CreatureList (do not show avatar if non set, disable info link if null)
 - [ ] Add form validation for the Create/ Update form
 - [ ] (OPTIONAL) create useCreatureFormInputState hook to easily read form values from the create/ update form
 - [ ] create (or find) icons for the types (working list: ['Mammal', 'Reptile', 'Bird', 'Fish', 'Amphibian', 'Insect', 'Arachnid', 'Plant', 'Fungus'])
 - [x] create x-icon for website icon something nature themed
 - [ ] decide on colour scheme, something nature themed
-- [ ] decide on font from either google fonts or elsewhere
+- [x] decide on font from either google fonts or elsewhere | Exo 2 and Hepta Slab
+- [ ] change to plant or animal focused app, maybe not both if both then rename to Compendium, Beast & Herbiary, GaiaKeeper, NatureJournalr??? ? herbiary or beastiary (will also be branch names)?
+- [ ] fix up the styling on all forms, collections, collection items, etc
 
 ## Look into:
 
 - [ ] can we somehow get users to upload photos to the website local storage
+- [ ] add a location field? users can give access to their current location and input that field?
 
 ## Bugs:
 
-- [ ] Checkbox Input from Materilize-CSS will not display
+- [x] Checkbox Input from Materilize-CSS will not display
+- [ ] materlize-css overrides any font families I set, look into this
