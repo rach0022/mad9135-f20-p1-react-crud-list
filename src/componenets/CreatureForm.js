@@ -2,15 +2,29 @@ import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import M from 'materialize-css'
 import cuid from 'cuid'
+import useFormInputState from '../hooks/useFormInputState'
 
 function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     // first lets initlize the types array and map all the names ianto html elements also get a reference to the history
     // set up all the types we want for our list items
     const CREATURE_TYPES = ['Mammal', 'Reptile', 'Bird', 'Fish', 'Amphibian', 'Insect', 'Arachnid', 'Plant', 'Fungus']
+    const FILE_TYPES = 'image/jpeg image/jpg image/png image/bmp'
     const types = CREATURE_TYPES.map((type, index) =>
         <option value={type} key={`type_${index}`}>{type.toUpperCase()}</option>
     )
     const history = useHistory()
+
+    // now lets setup the useFormInputState varaibles for this forms values of 
+    // 'name', 'species', 'infoURL' and 'image', 'isPet' will be looked into
+    const { value: name, bind: bindName, reset: resetName } = useFormInputState('')
+    const { value: species, bind: bindSpecies, reset: resetSpecies } = useFormInputState('')
+    const { value: image, setValue: imageSetter, bind: bindImage, reset: resetImage } = useFormInputState('')
+    const { value: infoURL, bind: bindInfoURL, reset: resetInfoURL } = useFormInputState('')
+
+    // creating a function to call all the reset functions
+    // const resetValues = (resetterList){
+    //     for item in rese
+    // }
 
     //if we have something in hideForm[2] (the object to edited) then lets set those values
     // as the forms values
@@ -40,10 +54,10 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
         const form = event.target
         const updatedCreature = {
             id: cuid(),
-            name: form.name.value.trim(),
-            type: form.type.value,
-            imageURL: form.imageURL.value.trim(),
-            infoURL: form.infoURL.value.trim(),
+            name: name.trim(),
+            type: species,
+            imageURL: image,
+            infoURL: infoURL.trim(),
             isPet: (form.isPet.checked) ? true : false,
         }
 
@@ -62,7 +76,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     }
 
     //handleSubmit event will take care of adding the specified object into the localStorage
-    function handleSubmit(event) {
+    const handleSubmit = event => {
         // stop the normal functionality of a form submitting
         event.preventDefault()
 
@@ -73,13 +87,14 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
         } else {
             // get a reference to the form and map its values to a new object
             const form = event.target
+
             // must add validation to form values? materilize-css may already do this
             const newOrganism = {
                 id: cuid(),
-                name: form.name.value.trim(),
-                type: form.type.value,
-                imageURL: form.imageURL.value.trim(),
-                infoURL: form.infoURL.value.trim(),
+                name: name.trim(),
+                type: species,
+                imageURL: image,
+                infoURL: infoURL.trim(),
                 isPet: (form.isPet.checked) ? true : false,
             }
 
@@ -87,20 +102,61 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
             setter([...data, newOrganism])
             history.push('/')
         }
+        resetName()
+        resetSpecies()
+        resetImage()
+        resetInfoURL()
+    }
+
+    //callback function to handle when a file is uploaded to the file input,
+    // will be used to convert the image into a base64 encoded string before saving
+    // in the database 'localstorage'
+    // based on this article: https://medium.com/@blturner3527/storing-images-in-your-database-with-base64-react-682f5f3921c2
+    function handleFormOnChange(event) {
+        event.preventDefault()
+
+        // after confirming the file exists in event.currentTarget.files[0] (since only one file at a time)
+        // using a FileReader object: https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+        // I can asynchronously read the contents of a file, in this case an image and readAsBinaryString
+        // after listening for the load event with FileReader.onLoad
+        const form = event.target
+        const file = (form.files) ? form.files[0] : null
+
+        if (file) {
+            const fileReader = new FileReader()
+            fileReader.onLoad = successfulFileLoad.bind(this)
+            fileReader.readAsBinaryString(file)
+            console.log(fileReader)
+        }
+
+    }
+
+    // callback function for the successful reading of a file
+    // will get the binary string from the currentTarget.result
+    // and will use the binary to ascii function to convert it
+    // to something we can store in the database, using an arrow function
+    // we can bind this to the fileReader onLoad function to change its context to the
+    // fileReader
+    const successfulFileLoad = (event) => {
+        let binaryString = event.currentTarget.result
+        // using the images setter to set the binary string with the file header
+        // of a png image 
+        imageSetter(`data:image/png;base64${btoa(binaryString)}`)
+        console.log(btoa(binaryString))
     }
 
     return (
         <div className={`CreatureForm row ${hideForm[0]}`}>
-            <form className="col s12" onSubmit={handleSubmit}>
+            <form className="col s12" onSubmit={handleSubmit} onChange={handleFormOnChange}>
                 <div className="row">
                     <div className="input-field col s12">
-                        <input placeholder="Name" id="name" type="text" className="validate" defaultValue={formPlaceholder.name} required />
+                        <input placeholder="Name" id="name" type="text" className="validate" {...bindName} required />
                         <label htmlFor="name" data-error="No name set">Name</label>
                     </div>
                 </div>
                 <div className="row">
                     <div className="input-field col s6">
-                        <select name="type" id="type">
+                        <select name="type" id="type" {...bindSpecies}>
                             {types}
                         </select>
                         <label htmlFor="type">Creature Type</label>
@@ -113,14 +169,21 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="input-field col s12">
-                        <input id="imageURL" type="url" className="validate" defaultValue={formPlaceholder.imageURL} />
-                        <label htmlFor="imageURL">Picture Link</label>
+                    <div className="file-field input-field col s12">
+                        <div className="btn">
+                            <span>Photo</span>
+                            <input type="file" name="image" accept={FILE_TYPES} {...bindImage} />
+                        </div>
+                        <div className="file-path-wrapper">
+                            <input className="file-path validate" name="image" type="text" />
+                        </div>
+                        {/* <input id="image" type="file" accept={FILE_TYPES} className="validate" defaultValue={formPlaceholder.imageURL} />
+                        <label htmlFor="image">Picture</label> */}
                     </div>
                 </div>
                 <div className="row">
                     <div className="input-field col s12">
-                        <input id="infoURL" type="url" className="validate" defaultValue={formPlaceholder.infoURL} />
+                        <input id="infoURL" type="url" className="validate" {...bindInfoURL} />
                         <label htmlFor="infoURL">Info Link</label>
                     </div>
                 </div>

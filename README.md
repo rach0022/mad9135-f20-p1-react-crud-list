@@ -43,3 +43,8 @@
 
 - [x] Checkbox Input from Materilize-CSS will not display
 - [ ] materlize-css overrides any font families I set, look into this
+- [ ] look into the proper form values being set
+
+## Branches:
+
+- IDEA-01 : Switch from imageURL input to a photo upload to base64 encoded string. Also create a custom hook, or just use a hook for the form values on change to pass around the base64 string
