@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import M from 'materialize-css'
 import cuid from 'cuid'
@@ -16,10 +16,12 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
 
     // now lets setup the useFormInputState varaibles for this forms values of 
     // 'name', 'species', 'infoURL' and 'image', 'isPet' will be looked into
-    const { value: name, bind: bindName, reset: resetName } = useFormInputState('')
-    const { value: species, bind: bindSpecies, reset: resetSpecies } = useFormInputState('')
+    const { value: name, setValue: setName, bind: bindName, reset: resetName } = useFormInputState('')
+    const { value: species, setValue: setSpecies, bind: bindSpecies, reset: resetSpecies } = useFormInputState('')
+    // const { value: isPet, setValue: setIsPet, checkBind: checkIsPet, reset: resetIsPet } = useFormInputState(false)
+    const [isPet, setIsPet] = useState(false)
     const { value: image, setValue: imageSetter, bind: bindImage, reset: resetImage } = useFormInputState('')
-    const { value: infoURL, bind: bindInfoURL, reset: resetInfoURL } = useFormInputState('')
+    const { value: infoURL, setValue: setInfoURL, bind: bindInfoURL, reset: resetInfoURL } = useFormInputState('')
 
     // creating a function to call all the reset functions
     // const resetValues = (resetterList){
@@ -28,14 +30,28 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
 
     //if we have something in hideForm[2] (the object to edited) then lets set those values
     // as the forms values
-    let formPlaceholder = {
-        name: '',
-        imageURL: '',
-        infoURL: '',
-        isPet: ''
-    }
+
     if (hideForm[2]) {
-        formPlaceholder = { ...formPlaceholder, ...hideForm[2] }
+
+        // if (name === hideForm[2].name) ? null : 
+        // species = (species === hideForm[2].type) ? null : 
+        // infoURL = (infoURL === hideForm[2].infoURL) ? null : 
+        if (name === hideForm[2].name) {
+
+        } else {
+            setName(hideForm[2].name)
+            setSpecies(hideForm[2].type)
+            setIsPet(hideForm[2].isPet)
+            setInfoURL(hideForm[2].infoURL)
+        }
+        // setImage(hideForm[2].imageURL)
+        // let formPlaceholder = {
+        //     name: '',
+        //     imageURL: '',
+        //     infoURL: '',
+        //     isPet: ''
+        // }
+        // formPlaceholder = { ...formPlaceholder, ...hideForm[2] }
     }
 
     // now lets intilize any materilize functionality I need with a useEffect function with no dependancies
@@ -51,14 +67,14 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
         event.preventDefault()
 
         // will eventually get this info from a form, for testing lets start with a static object
-        const form = event.target
+        // const form = event.target
         const updatedCreature = {
             id: cuid(),
             name: name.trim(),
             type: species,
             imageURL: image,
             infoURL: infoURL.trim(),
-            isPet: (form.isPet.checked) ? true : false,
+            isPet: isPet,
         }
 
         // get a reference to the array postion of the item in data from the attribute
@@ -86,7 +102,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
             updateCreature(event, hideForm[1])
         } else {
             // get a reference to the form and map its values to a new object
-            const form = event.target
+            // const form = event.target
 
             // must add validation to form values? materilize-css may already do this
             const newOrganism = {
@@ -95,7 +111,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
                 type: species,
                 imageURL: image,
                 infoURL: infoURL.trim(),
-                isPet: (form.isPet.checked) ? true : false,
+                isPet: isPet,
             }
 
             //using the setter function we can set the datasource and then navigate away using the useHistory
@@ -104,6 +120,8 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
         }
         resetName()
         resetSpecies()
+        // resetIsPet()
+        setIsPet(false)
         resetImage()
         resetInfoURL()
     }
@@ -124,7 +142,8 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
 
         if (file) {
             const fileReader = new FileReader()
-            fileReader.onLoad = successfulFileLoad.bind(this)
+            // fileReader.addEventListener('load', ({ target }) => imageSetter(`data:image/png;base64${btoa(target.result)}`))
+            fileReader.onload = setBase64EncodedString.bind(this)
             fileReader.readAsBinaryString(file)
             console.log(fileReader)
         }
@@ -135,14 +154,20 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     // will get the binary string from the currentTarget.result
     // and will use the binary to ascii function to convert it
     // to something we can store in the database, using an arrow function
+    const setBase64EncodedString = ({ target }) => imageSetter(`data:image/png;base64${btoa(target.result)}`)
     // we can bind this to the fileReader onLoad function to change its context to the
     // fileReader
-    const successfulFileLoad = (event) => {
-        let binaryString = event.currentTarget.result
-        // using the images setter to set the binary string with the file header
-        // of a png image 
-        imageSetter(`data:image/png;base64${btoa(binaryString)}`)
-        console.log(btoa(binaryString))
+    // const successfulFileLoad = event => {
+    //     let binaryString = event.target.result
+    //     console.log(event)
+    //     // using the images setter to set the binary string with the file header
+    //     // of a png image 
+    //     imageSetter(`data:image/png;base64${btoa(binaryString)}`)
+    //     console.log(btoa(binaryString))
+    // }
+
+    const handleCheckBoxOnChange = event => {
+        setIsPet(event.target.checked)
     }
 
     return (
@@ -159,11 +184,11 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
                         <select name="type" id="type" {...bindSpecies}>
                             {types}
                         </select>
-                        <label htmlFor="type">Creature Type</label>
+                        <label htmlFor="type">Species</label>
                     </div>
                     <div className="input-field col s6">
                         <label>
-                            <input name="isPet" type="checkbox" id="isPet" className="filled-in" defaultValue="true" />
+                            <input name="isPet" type="checkbox" id="isPet" className="filled-in" checked={isPet} onClick={handleCheckBoxOnChange} />
                             <span>Is this your pet?</span>
                         </label>
                     </div>
@@ -172,10 +197,10 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
                     <div className="file-field input-field col s12">
                         <div className="btn">
                             <span>Photo</span>
-                            <input type="file" name="image" accept={FILE_TYPES} {...bindImage} />
+                            <input type="file" name="imageFile" accept={FILE_TYPES} {...bindImage} />
                         </div>
                         <div className="file-path-wrapper">
-                            <input className="file-path validate" name="image" type="text" />
+                            <input className="file-path validate" name="imagePath" type="text" />
                         </div>
                         {/* <input id="image" type="file" accept={FILE_TYPES} className="validate" defaultValue={formPlaceholder.imageURL} />
                         <label htmlFor="image">Picture</label> */}

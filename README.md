@@ -43,7 +43,10 @@
 
 - [x] Checkbox Input from Materilize-CSS will not display
 - [ ] materlize-css overrides any font families I set, look into this
-- [ ] look into the proper form values being set
+- [x] look into the proper form values being set | using the setter functions I can set the proper values
+- [x] species does not get reset when submitting the edit form?
+- [ ] checkbox cannot use the same useFormInput state, make changes so it can
+- [ ] setImage function cannot be used inside the onLoad event callback function, find out why (will crash when loading an image)
 
 ## Branches:
 

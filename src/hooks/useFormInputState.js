@@ -22,6 +22,14 @@ const useFormInputState = initial => {
             onChange: event => {
                 setValue(event.target.value)
             }
+        },
+        checkBind: {
+            // adding value and onChange event to the bind object to spread values out
+            // in the form elements 
+            value,
+            onClick: event => {
+                setValue(event.target.checked)
+            }
         }
     }
 }
