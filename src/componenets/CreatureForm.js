@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import M from 'materialize-css'
 import cuid from 'cuid'
@@ -18,24 +18,26 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     // 'name', 'species', 'infoURL' and 'image', 'isPet' will be looked into
     const { value: name, setValue: setName, bind: bindName, reset: resetName } = useFormInputState('')
     const { value: species, setValue: setSpecies, bind: bindSpecies, reset: resetSpecies } = useFormInputState('')
-    // const { value: isPet, setValue: setIsPet, checkBind: checkIsPet, reset: resetIsPet } = useFormInputState(false)
-    const [isPet, setIsPet] = useState(false)
+    const { value: isPet, setValue: setIsPet, checkBind: checkIsPet, reset: resetIsPet } = useFormInputState(false)
     const { value: image, setValue: imageSetter, bind: bindImage, reset: resetImage } = useFormInputState('')
     const { value: infoURL, setValue: setInfoURL, bind: bindInfoURL, reset: resetInfoURL } = useFormInputState('')
 
     // creating a function to call all the reset functions
-    // const resetValues = (resetterList){
-    //     for item in rese
-    // }
+    const resetValues = (...resetterList) => {
+        // first make sure we have arguments, then for each item in the arguments
+        // we will check if its a function and then run it
+        if (resetterList.length > 0) {
+            for (let item in resetterList) if (typeof item == "function") item()
+        }
+    }
 
     //if we have something in hideForm[2] (the object to edited) then lets set those values
-    // as the forms values
+    // as the forms values for default options when opening the editing form
 
     if (hideForm[2]) {
-
-        // if (name === hideForm[2].name) ? null : 
-        // species = (species === hideForm[2].type) ? null : 
-        // infoURL = (infoURL === hideForm[2].infoURL) ? null : 
+        // to stop infinite setting and looping we add a conditonal check
+        // if the name we are setting is already the same as the one we are setting
+        // then we will not reset the values because we know all the other values have been set
         if (name === hideForm[2].name) {
 
         } else {
@@ -44,22 +46,12 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
             setIsPet(hideForm[2].isPet)
             setInfoURL(hideForm[2].infoURL)
         }
-        // setImage(hideForm[2].imageURL)
-        // let formPlaceholder = {
-        //     name: '',
-        //     imageURL: '',
-        //     infoURL: '',
-        //     isPet: ''
-        // }
-        // formPlaceholder = { ...formPlaceholder, ...hideForm[2] }
     }
 
     // now lets intilize any materilize functionality I need with a useEffect function with no dependancies
     useEffect(() => {
         M.AutoInit()
     }, [])
-
-
 
     // function to update the selected creature
     // callback function to update an element in the data and set it to the data
@@ -101,10 +93,8 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
         if (edit) {
             updateCreature(event, hideForm[1])
         } else {
-            // get a reference to the form and map its values to a new object
-            // const form = event.target
-
-            // must add validation to form values? materilize-css may already do this
+            // since we use the useFormInputState function we can just set those values in the form
+            // after doing a little validation for proper values? materilize-css may already do this
             const newOrganism = {
                 id: cuid(),
                 name: name.trim(),
@@ -118,12 +108,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
             setter([...data, newOrganism])
             history.push('/')
         }
-        resetName()
-        resetSpecies()
-        // resetIsPet()
-        setIsPet(false)
-        resetImage()
-        resetInfoURL()
+        resetValues(resetName, resetSpecies, resetIsPet, resetImage, resetInfoURL)
     }
 
     //callback function to handle when a file is uploaded to the file input,
@@ -166,16 +151,12 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     //     console.log(btoa(binaryString))
     // }
 
-    const handleCheckBoxOnChange = event => {
-        setIsPet(event.target.checked)
-    }
-
     return (
         <div className={`CreatureForm row ${hideForm[0]}`}>
             <form className="col s12" onSubmit={handleSubmit} onChange={handleFormOnChange}>
                 <div className="row">
                     <div className="input-field col s12">
-                        <input placeholder="Name" id="name" type="text" className="validate" {...bindName} required />
+                        <input id="name" type="text" className="validate" {...bindName} required />
                         <label htmlFor="name" data-error="No name set">Name</label>
                     </div>
                 </div>
@@ -188,7 +169,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
                     </div>
                     <div className="input-field col s6">
                         <label>
-                            <input name="isPet" type="checkbox" id="isPet" className="filled-in" checked={isPet} onClick={handleCheckBoxOnChange} />
+                            <input name="isPet" type="checkbox" id="isPet" className="filled-in" {...checkIsPet} />
                             <span>Is this your pet?</span>
                         </label>
                     </div>
