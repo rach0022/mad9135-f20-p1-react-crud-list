@@ -50,7 +50,8 @@
 - [x] image in base64 string wont display? using the 'data:image/png;base64' prefix? | I forgot the comma : 'data:image/png;base64, {binaryText}'
 - [ ] select will not show the old option but the value set is the right option, need to figure out how to set the displayed value
 - [ ] why do fonts not work locally but do work on netlify?
-- [ ] cannot edit the name value because of how I set my value? Do I just say to users that we cannot change the name after setting?
+- [x] cannot edit the name value because of how I set my value? Do I just say to users that we cannot change the name after setting? | use setForm to set the third entry to null
+- [x] image will get wiped out if not set when editing | check if there is an image value and if there isnt set it to the old one
 
 ## Branches:
 

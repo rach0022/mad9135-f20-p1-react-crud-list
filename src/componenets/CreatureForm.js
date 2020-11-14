@@ -50,7 +50,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
             setSpecies(hideForm[2].type)
             setIsPet(hideForm[2].isPet)
             setInfoURL(hideForm[2].infoURL)
-
+            setHideForm([hideForm[0], hideForm[1], null])
             // need to find some way to change which value of the select is displayed without refs? or with?
         }
 
@@ -72,7 +72,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
             id: cuid(),
             name: name.trim(),
             type: species,
-            imageURL: image,
+            imageURL: (image) ? image : data[index].imageURL,
             infoURL: infoURL.trim(),
             isPet: isPet,
         }
