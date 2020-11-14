@@ -10,9 +10,10 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     // set up all the types we want for our list items
     const CREATURE_TYPES = ['Mammal', 'Reptile', 'Bird', 'Fish', 'Amphibian', 'Insect', 'Arachnid', 'Plant', 'Fungus']
     const types = CREATURE_TYPES.map((type, index) =>
-        <option value={type} key={`type_${index}`} className="deep-purple">{type.toUpperCase()}</option>
+        <option value={type} key={`type_${index}`}>{type.toUpperCase()}</option>
     )
     const history = useHistory()
+    const colourClass = "dark-shade"
 
     // now lets setup the useFormInputState varaibles for this forms values of 
     // 'name', 'species', 'infoURL' and 'image', 'isPet' will be looked into
@@ -132,8 +133,8 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     })(setHideForm)
 
     return (
-        <div className={`card-panel deep-purple col s11 ${hideForm[0]}`}>
-            <div className={`CreatureForm deep-purple row`}>
+        <div className={`card-panel ${colourClass} col s11 ${hideForm[0]}`}>
+            <div className={`CreatureForm ${colourClass} row`}>
                 <form className="col s12" onSubmit={handleSubmit} onChange={handleFormOnChange}>
                     <div className="col s8">
                         <div className="row">
@@ -169,16 +170,17 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
                             </div>
                         </div>
                     </div>
-                    <div className="col s2"></div>
-                    <div className="col s2 formButtons">
-                        <div className="row ">
-                            <button className="btn waves-effect waves-light" type="submit">
-                                <i className="material-icons right">send</i></button>
-                        </div>
-                        <div className="row">
-                            <Link to="/" onClick={handleCancel} className="btn waves-effect waves-light">
-                                <i className="material-icons right">cancel</i>
-                            </Link>
+                    <div className="col s4 btnCol">
+                        <div className="formButtons">
+                            <div className="row ">
+                                <button className="btn waves-effect waves-light" type="submit">
+                                    <i className="material-icons right">send</i>Submit</button>
+                            </div>
+                            <div className="row">
+                                <Link to="/" onClick={handleCancel} className="btn waves-effect waves-light">
+                                    <i className="material-icons right">cancel</i>Cancel
+                                </Link>
+                            </div>
                         </div>
                     </div>
 

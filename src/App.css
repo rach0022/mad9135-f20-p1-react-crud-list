@@ -6468,6 +6468,11 @@ input[type=range]::-ms-thumb {
   color: #3E5769 !important;
   border-color: #f4b93c !important; }
 
+.deep-purpilize {
+  background-color: #673ab7 !important;
+  color: #C4E4AC !important;
+  border-color: #512e90 !important; }
+
 /* hepta-slab-regular - latin */
 @font-face {
   font-family: 'Hepta Slab';
@@ -6513,40 +6518,41 @@ html {
 .hidden {
   display: none; }
 
-.secondary-content {
-  width: 250px;
-  place-items: center; }
-  .secondary-content .btn-box {
-    display: grid;
-    place-items: center; }
-    .secondary-content .btn-box .del-btn {
-      margin-top: 2px; }
-    .secondary-content .btn-box .edit-btn {
-      margin-bottom: 2px; }
-
 .favourite {
   box-shadow: 2px 2px 10px #ffee58, -2px -2px 10px #ffee58; }
 
-.badge {
-  position: absolute; }
-  .badge i {
-    color: #ffee58; }
+.collection-item .avatar-container .badge {
+  position: absolute;
+  left: -20px; }
+  .collection-item .avatar-container .badge i {
+    color: #F7CA6C;
+    border-color: #3E5769; }
+.collection-item .secondary-content {
+  width: 250px;
+  place-items: center; }
+  .collection-item .secondary-content .btn-box {
+    display: grid;
+    place-items: center; }
+    .collection-item .secondary-content .btn-box .del-btn {
+      margin-top: 2px; }
+    .collection-item .secondary-content .btn-box .edit-btn {
+      margin-bottom: 2px; }
 
-.formButtons {
+.btnCol {
+  height: 100%;
   display: grid;
-  place-items: center;
-  background-color: rebeccapurple;
-  height: 100%; }
-  .formButtons .row button, .formButtons .row a {
-    width: 100%; }
+  place-items: center; }
+  .btnCol .formButtons {
+    overflow-x: hidden;
+    background-color: rebeccapurple;
+    height: 100%; }
+    .btnCol .formButtons .row button, .btnCol .formButtons .row a {
+      width: 100%; }
 
 input, select, option {
   color: white; }
 
 html {
   background-color: #F7CA6C; }
-
-.collection-item {
-  background-color: #39CCA9; }
 
 /*# sourceMappingURL=App.css.map */

@@ -1,3 +1,6 @@
+//sizes needed fo rthings like buttons, views, etc
+$button-width: 250px;
+
 // colours needed
 $brand-colour: #96DABB;
 $dark-accent: #39CCA9;
@@ -33,4 +36,8 @@ $collection-bg-color: $dark-shade;
 
 .light-shade{
     @include colour-style($light-shade, $dark-shade)
+}
+
+.deep-purpilize{
+    @include colour-style($deep-purple, $light-accent)
 }

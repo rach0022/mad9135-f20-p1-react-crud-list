@@ -14,7 +14,10 @@ function CreatureList({ data, setter }) {
     if (!data || data.length === 0) return (
         <div className="CreatureList">
             <ul className="collection with-header">
-                <li className="collection-header"><h4>Empty</h4></li>
+                <li className="collection-header dark-shade"><h4>Welcome to NatureLog</h4></li>
+                <li className="collection-item dark-shade"><h4>A place to log anything you find in the great outdoors.</h4></li>
+                <li className="collection-item dark-shade"><h6>Click add in the top right corner to get started!</h6></li>
+                <li className="collection-item dark-shade"><h6>Add an info link to any entry when you can.</h6></li>
             </ul>
         </div>
     )
@@ -23,7 +26,7 @@ function CreatureList({ data, setter }) {
     return (
         <div className="CreatureList">
             <ul className="collection with-header">
-                <li className="collection-header">Creature List</li>
+                <li className="collection-header light-accent">Creature List</li>
                 <CreatureListItem data={data} setter={setter} setHideForm={setHideForm} />
             </ul>
             <CreatureForm data={data} setter={setter} edit={true} hideForm={hideForm} setHideForm={setHideForm} />
