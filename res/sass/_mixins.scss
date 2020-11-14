@@ -6,3 +6,9 @@
     justify-content: center;
     align-items: center;
 }
+
+@mixin colour-style($colour, $text-colour) {
+    background-color: $colour !important;
+    color: $text-colour !important;
+    border-color: darken($colour, 10%) !important;
+}

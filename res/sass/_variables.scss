@@ -1,9 +1,36 @@
 // colours needed
-// $brand-colour: 
-// $dark-accent: 
-// $dark-shade: 
-// $light-accent: 
-// $light-shade: 
+$brand-colour: #96DABB;
+$dark-accent: #39CCA9;
+$dark-shade: #3E5769;
+$light-accent: #C4E4AC;
+$light-shade: #F7CA6C;
+
 
 // from materlize-css
 $deep-purple: #673ab7;
+$yellow: #ffee58;
+$collection-bg-color: $dark-shade;
+
+// my own custom colours classes based on materlize
+// using the mixin colour-style I can set a base colour
+// and a text colour that will be applied to the component specified
+// using the !important flag
+.brand-colour{
+    @include colour-style($brand-colour, $dark-shade);
+}
+
+.dark-accent{
+    @include colour-style($dark-accent, $dark-shade);
+}
+
+.light-accent{
+    @include colour-style($light-accent, $dark-shade);
+}
+
+.dark-shade{
+    @include colour-style($dark-shade, $light-accent)
+}
+
+.light-shade{
+    @include colour-style($light-shade, $dark-shade)
+}

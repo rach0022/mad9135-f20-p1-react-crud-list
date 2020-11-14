@@ -6443,6 +6443,31 @@ input[type=range]::-ms-thumb {
     bottom: auto;
     text-align: center;
     margin-top: 1.2rem; } }
+.brand-colour {
+  background-color: #96DABB !important;
+  color: #3E5769 !important;
+  border-color: #70cda3 !important; }
+
+.dark-accent {
+  background-color: #39CCA9 !important;
+  color: #3E5769 !important;
+  border-color: #2ba789 !important; }
+
+.light-accent {
+  background-color: #C4E4AC !important;
+  color: #3E5769 !important;
+  border-color: #a9d786 !important; }
+
+.dark-shade {
+  background-color: #3E5769 !important;
+  color: #C4E4AC !important;
+  border-color: #2b3c49 !important; }
+
+.light-shade {
+  background-color: #F7CA6C !important;
+  color: #3E5769 !important;
+  border-color: #f4b93c !important; }
+
 /* hepta-slab-regular - latin */
 @font-face {
   font-family: 'Hepta Slab';
@@ -6500,11 +6525,12 @@ html {
       margin-bottom: 2px; }
 
 .favourite {
-  border: 3px solid #673ab7;
-  box-shadow: 2px 2px 10px #673ab7, -2px -2px 10px #673ab7; }
+  box-shadow: 2px 2px 10px #ffee58, -2px -2px 10px #ffee58; }
 
 .badge {
   position: absolute; }
+  .badge i {
+    color: #ffee58; }
 
 .formButtons {
   display: grid;
@@ -6516,5 +6542,11 @@ html {
 
 input, select, option {
   color: white; }
+
+html {
+  background-color: #F7CA6C; }
+
+.collection-item {
+  background-color: #39CCA9; }
 
 /*# sourceMappingURL=App.css.map */

@@ -60,7 +60,7 @@ function CreatureListItem({ data, setter, setHideForm }) {
 
 
         return (
-            <li key={creature.id} className="collection-item avatar hoverable">
+            <li key={creature.id} className="collection-item avatar hoverable light-accent">
                 <img src={`${img}`} alt={`The ${creature.name}`} className={`circle ${petStatus}`} />
                 <span className="title">{creature.name}{petBadge}</span>
                 <div className="row">

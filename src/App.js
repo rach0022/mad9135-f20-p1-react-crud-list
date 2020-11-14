@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import cuid from 'cuid'
 import './App.css';
+// import './static/css/materialize.css'
 // import components
 import AppNav from './componenets/AppNav.js'
 import CreatureListView from './componenets/CreatureListView.js'
