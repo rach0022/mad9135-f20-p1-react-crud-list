@@ -55,13 +55,14 @@ function CreatureListItem({ data, setter, setHideForm }) {
         // image url we wil display those properties
         const img = (creature.imageURL) ? `data:image/png;base64, ${creature.imageURL}` : defaultImage
         const infoLink = (creature.infoURL) ? (<a href={creature.infoURL} target="_blank" rel="noreferrer">Info Page</a>) : null
-        const petBadge = (creature.isPet) ? (<span className="badge"><i className="material-icons">star</i></span>) : null
+        const petBadge = (creature.isPet) ? (<span className="badge icon-purple"><i className="material-icons">star</i></span>) : null
+        const petStatus = (creature.isPet) ? 'favourite' : null
 
 
         return (
             <li key={creature.id} className="collection-item avatar hoverable">
-                <img src={`${img}`} alt={`The ${creature.name}`} className="circle" />
-                <span className="title">{creature.name}</span>
+                <img src={`${img}`} alt={`The ${creature.name}`} className={`circle ${petStatus}`} />
+                <span className="title">{creature.name}{petBadge}</span>
                 <div className="row">
                     <p>{creature.type}</p>
                     {infoLink}
@@ -69,15 +70,14 @@ function CreatureListItem({ data, setter, setHideForm }) {
 
                 <div className="secondary-content row">
                     <div className="btn-box">
-                        <button className="btn col s6" data-target={index} onClick={displayCreatureForm}>
+                        <button className="btn col s6 edit-btn" data-target={index} onClick={displayCreatureForm}>
                             <i className="material-icons right">edit</i>Edit
                         </button>
-                        <button className="btn col s6" data-target={index} onClick={deleteCreature}>
+                        <button className="btn col s6 del-btn" data-target={index} onClick={deleteCreature}>
                             <i className="material-icons right">delete</i>Delete
                         </button>
                     </div>
                 </div>
-                {petBadge}
             </li>
         )
     })

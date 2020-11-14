@@ -12,6 +12,35 @@
     display: none;
 }
 
+// selector for secondary-content (inside the collection item, expand the width)
+.secondary-content{
+    width: 250px;
+    place-items: center;
+
+    //style the collection items
+    .btn-box{
+        // @include center(column);
+        // height: 100%;
+        display: grid;
+        place-items: center;
+
+        .del-btn{
+            margin-top: 2px;
+        }
+        .edit-btn{
+            margin-bottom: 2px;
+        }
+    }
+}
+
+.favourite {
+    border: 3px solid $deep-purple;
+    box-shadow: 2px 2px 10px $deep-purple, -2px -2px 10px $deep-purple ;
+}
+.badge{
+    position: absolute;
+}
+
 .formButtons{
     // @include center(column);
     // justify-content: center;
@@ -29,12 +58,4 @@
 //change the colours of text inside the inputs
 input, select, option {
     color: white;
-}
-
-//style the collection items
-.btn-box{
-    // @include center(column);
-    // height: 100%;
-    display: grid;
-    place-items: center;
 }
