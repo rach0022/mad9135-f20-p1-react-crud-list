@@ -46,7 +46,8 @@
 - [x] look into the proper form values being set | using the setter functions I can set the proper values
 - [x] species does not get reset when submitting the edit form?
 - [x] checkbox cannot use the same useFormInput state, make changes so it can
-- [ ] setImage function cannot be used inside the onLoad event callback function, find out why (will crash when loading an image)
+- [x] setImage function cannot be used inside the onLoad event callback function, find out why (will crash when loading an image) | use a closure to get reference to the variable? | nope closures didnt work jsut turned into a react class component instead so I could bind the context of this (beign the class object containing the setter function) to the callback function for the onload event
+- [ ] image in base64 string wont display? using the 'data:image/png;base64' prefix?
 
 ## Branches:
 

@@ -3,12 +3,13 @@ import { useHistory } from 'react-router-dom'
 import M from 'materialize-css'
 import cuid from 'cuid'
 import useFormInputState from '../hooks/useFormInputState'
+import ImageFormInput from './ImageFormInput'
 
 function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     // first lets initlize the types array and map all the names ianto html elements also get a reference to the history
     // set up all the types we want for our list items
     const CREATURE_TYPES = ['Mammal', 'Reptile', 'Bird', 'Fish', 'Amphibian', 'Insect', 'Arachnid', 'Plant', 'Fungus']
-    const FILE_TYPES = 'image/jpeg image/jpg image/png image/bmp'
+    // const FILE_TYPES = 'image/jpeg, image/jpg, image/png, image/bmp'
     const types = CREATURE_TYPES.map((type, index) =>
         <option value={type} key={`type_${index}`}>{type.toUpperCase()}</option>
     )
@@ -19,7 +20,9 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     const { value: name, setValue: setName, bind: bindName, reset: resetName } = useFormInputState('')
     const { value: species, setValue: setSpecies, bind: bindSpecies, reset: resetSpecies } = useFormInputState('')
     const { value: isPet, setValue: setIsPet, checkBind: checkIsPet, reset: resetIsPet } = useFormInputState(false)
-    const { value: image, setValue: imageSetter, bind: bindImage, reset: resetImage } = useFormInputState('')
+
+    //because image is set from an uploaded file we need to pass down the binder and the setter to the ImageFormInput componenet
+    const { value: image, setValue: setImage, bind: bindImage, reset: resetImage } = useFormInputState('')
     const { value: infoURL, setValue: setInfoURL, bind: bindInfoURL, reset: resetInfoURL } = useFormInputState('')
 
     // creating a function to call all the reset functions
@@ -111,45 +114,8 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
         resetValues(resetName, resetSpecies, resetIsPet, resetImage, resetInfoURL)
     }
 
-    //callback function to handle when a file is uploaded to the file input,
-    // will be used to convert the image into a base64 encoded string before saving
-    // in the database 'localstorage'
-    // based on this article: https://medium.com/@blturner3527/storing-images-in-your-database-with-base64-react-682f5f3921c2
-    function handleFormOnChange(event) {
-        event.preventDefault()
 
-        // after confirming the file exists in event.currentTarget.files[0] (since only one file at a time)
-        // using a FileReader object: https://developer.mozilla.org/en-US/docs/Web/API/FileReader
-        // I can asynchronously read the contents of a file, in this case an image and readAsBinaryString
-        // after listening for the load event with FileReader.onLoad
-        const form = event.target
-        const file = (form.files) ? form.files[0] : null
-
-        if (file) {
-            const fileReader = new FileReader()
-            // fileReader.addEventListener('load', ({ target }) => imageSetter(`data:image/png;base64${btoa(target.result)}`))
-            fileReader.onload = setBase64EncodedString.bind(this)
-            fileReader.readAsBinaryString(file)
-            console.log(fileReader)
-        }
-
-    }
-
-    // callback function for the successful reading of a file
-    // will get the binary string from the currentTarget.result
-    // and will use the binary to ascii function to convert it
-    // to something we can store in the database, using an arrow function
-    const setBase64EncodedString = ({ target }) => imageSetter(`data:image/png;base64${btoa(target.result)}`)
-    // we can bind this to the fileReader onLoad function to change its context to the
-    // fileReader
-    // const successfulFileLoad = event => {
-    //     let binaryString = event.target.result
-    //     console.log(event)
-    //     // using the images setter to set the binary string with the file header
-    //     // of a png image 
-    //     imageSetter(`data:image/png;base64${btoa(binaryString)}`)
-    //     console.log(btoa(binaryString))
-    // }
+    const handleFormOnChange = (event) => event.preventDefault()
 
     return (
         <div className={`CreatureForm row ${hideForm[0]}`}>
@@ -176,15 +142,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
                 </div>
                 <div className="row">
                     <div className="file-field input-field col s12">
-                        <div className="btn">
-                            <span>Photo</span>
-                            <input type="file" name="imageFile" accept={FILE_TYPES} {...bindImage} />
-                        </div>
-                        <div className="file-path-wrapper">
-                            <input className="file-path validate" name="imagePath" type="text" />
-                        </div>
-                        {/* <input id="image" type="file" accept={FILE_TYPES} className="validate" defaultValue={formPlaceholder.imageURL} />
-                        <label htmlFor="image">Picture</label> */}
+                        <ImageFormInput setter={setImage} binder={bindImage} />
                     </div>
                 </div>
                 <div className="row">
