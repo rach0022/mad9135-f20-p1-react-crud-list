@@ -1,5 +1,4 @@
 import React from 'react'
-import M from 'materialize-css'
 
 // custom use Input hook based on this article and class lecture
 // https://rangle.io/blog/simplifying-controlled-inputs-with-hooks/
