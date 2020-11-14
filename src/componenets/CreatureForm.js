@@ -135,7 +135,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
         <div className={`card-panel deep-purple col s11 ${hideForm[0]}`}>
             <div className={`CreatureForm deep-purple row`}>
                 <form className="col s12" onSubmit={handleSubmit} onChange={handleFormOnChange}>
-                    <div className="col s10">
+                    <div className="col s8">
                         <div className="row">
                             <div className="input-field col s12">
                                 <input id="name" type="text" className="validate" {...bindName} required />
@@ -169,8 +169,8 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
                             </div>
                         </div>
                     </div>
-                    <div className="col s1"></div>
-                    <div className="col s1 formButtons">
+                    <div className="col s2"></div>
+                    <div className="col s2 formButtons">
                         <div className="row ">
                             <button className="btn waves-effect waves-light" type="submit">
                                 <i className="material-icons right">send</i></button>

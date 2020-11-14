@@ -6489,11 +6489,8 @@ html {
   display: none; }
 
 .formButtons {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   background-color: rebeccapurple;
   height: 100%; }
   .formButtons .row button, .formButtons .row a {
@@ -6503,10 +6500,7 @@ input, select, option {
   color: white; }
 
 .btn-box {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%; }
+  display: grid;
+  place-items: center; }
 
 /*# sourceMappingURL=App.css.map */

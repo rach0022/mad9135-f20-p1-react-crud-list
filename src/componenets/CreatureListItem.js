@@ -15,13 +15,37 @@ function CreatureListItem({ data, setter, setHideForm }) {
         setter([...data])
     }
 
-    //callback function to display the form when the user clicks a button and
+    // callback function to display the form when the user clicks a button and
     // send the value of id to the editing form
     function displayCreatureForm(event) {
         event.preventDefault()
         const index = event.currentTarget.getAttribute('data-target')
         setHideForm(['', index, data[index]])
     }
+
+    // function to sort the creatures based on the following conditions
+    // pets are displayed first (isPet must be set) and if both creatures are pets
+    // we sort by name
+    const sortCreatures = (a, b) => {
+        if (a.isPet && !b.isPet) {
+            return -1
+        } else if (!a.isPet && b.isPet) {
+            return 1
+        }
+        // if they are both pets (or not) the following code will first
+        // using a switch we will compare the names (at uppercase) and sort them alphabetically
+        let aName = a.name.toUpperCase()
+        let bName = b.name.toUpperCase()
+        if (aName > bName) {
+            return 1
+        } else if (bName > aName) {
+            return -1
+        }
+        return 0 // they are equal
+    }
+
+    // sort the data based on my supplied sortCreatures function
+    data.sort(sortCreatures)
 
     // now that we have the confirmed no errors and we have a catlog lets loop through
     // and map each creature to an CreatureList item
