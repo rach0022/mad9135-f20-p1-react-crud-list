@@ -30,7 +30,7 @@ function CreatureListItem({ data, setter, setHideForm }) {
         // conditonal rendering for the collection item dpeending on properties set like
         // image url we wil display those properties
         const img = (creature.imageURL) ? `data:image/png;base64, ${creature.imageURL}` : defaultImage
-        const infoLink = (creature.infoURL) ? (<a href={creature.infoURL}>Info Page</a>) : null
+        const infoLink = (creature.infoURL) ? (<a href={creature.infoURL} target="_blank" rel="noreferrer">Info Page</a>) : null
         const petBadge = (creature.isPet) ? (<span className="badge"><i className="material-icons">star</i></span>) : null
 
 
@@ -38,9 +38,11 @@ function CreatureListItem({ data, setter, setHideForm }) {
             <li key={creature.id} className="collection-item avatar hoverable">
                 <img src={`${img}`} alt={`The ${creature.name}`} className="circle" />
                 <span className="title">{creature.name}</span>
-                <p> {creature.type} <br />
+                <div className="row">
+                    <p>{creature.type}</p>
                     {infoLink}
-                </p>
+                </div>
+
                 <div className="secondary-content row">
                     <div className="btn-box">
                         <button className="btn col s6" data-target={index} onClick={displayCreatureForm}>

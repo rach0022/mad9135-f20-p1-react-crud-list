@@ -1,4 +1,4 @@
-import React, { useEffect, createRef } from 'react'
+import React, { useEffect } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import M from 'materialize-css'
 import cuid from 'cuid'
@@ -9,8 +9,6 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     // first lets initlize the types array and map all the names ianto html elements also get a reference to the history
     // set up all the types we want for our list items
     const CREATURE_TYPES = ['Mammal', 'Reptile', 'Bird', 'Fish', 'Amphibian', 'Insect', 'Arachnid', 'Plant', 'Fungus']
-    const formRef = createRef()
-    const selectRef = createRef()
     const types = CREATURE_TYPES.map((type, index) =>
         <option value={type} key={`type_${index}`} className="deep-purple">{type.toUpperCase()}</option>
     )
@@ -42,6 +40,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
         // to stop infinite setting and looping we add a conditonal check
         // if the name we are setting is already the same as the one we are setting
         // then we will not reset the values because we know all the other values have been set
+        // ***BUG*** because of the way I check name I cannot edit name in the editing form but other values are safe
         if (name === hideForm[2].name) {
             M.updateTextFields()
 
@@ -52,7 +51,9 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
             setIsPet(hideForm[2].isPet)
             setInfoURL(hideForm[2].infoURL)
 
+            // need to find some way to change which value of the select is displayed without refs? or with?
         }
+
     }
 
     // now lets intilize any materilize functionality I need with a useEffect function with no dependancies
@@ -121,6 +122,9 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
 
     const handleFormOnChange = (event) => event.preventDefault()
 
+    // using closures I can pass the callback function (in this case setHideform) into
+    // the handleCancel callback function for the on clock event of the cancel button to
+    // set the hide form value to hidden
     const handleCancel = (function (callback) {
         return ev => {
             if (callback) callback(['hidden', null, null])
@@ -128,7 +132,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     })(setHideForm)
 
     return (
-        <div className={`card-panel deep-purple col s11 ${hideForm[0]}`} ref={formRef}>
+        <div className={`card-panel deep-purple col s11 ${hideForm[0]}`}>
             <div className={`CreatureForm deep-purple row`}>
                 <form className="col s12" onSubmit={handleSubmit} onChange={handleFormOnChange}>
                     <div className="col s10">
@@ -152,7 +156,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
                         </div>
                         <div className="row">
                             <div className="input-field col s8">
-                                <select name="type" id="type" {...bindSpecies} ref={selectRef}>
+                                <select name="type" id="type" {...bindSpecies}>
                                     {types}
                                 </select>
                                 <label htmlFor="type">Species</label>

@@ -9,7 +9,7 @@ function AppNav() {
             <div className="nav-wrapper">
                 <NavLink to="/" className="brand-logo"><i className="material-icons">nature</i>Creature Catalog</NavLink>
                 <ul id="nav-mobile" className="right">
-                    <li><NavLink to="add"><i className="material-icons left">add</i></NavLink></li>
+                    <li><NavLink to="add"><i className="material-icons left">add</i>Add</NavLink></li>
                 </ul>
             </div>
         </nav>
