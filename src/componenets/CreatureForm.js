@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import M from 'materialize-css'
 import cuid from 'cuid'
+import useFormInputState from '../hooks/useFormInputState'
+import ImageFormInput from './ImageFormInput'
 
 function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     // first lets initlize the types array and map all the names ianto html elements also get a reference to the history
@@ -12,16 +14,40 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     )
     const history = useHistory()
 
-    //if we have something in hideForm[2] (the object to edited) then lets set those values
-    // as the forms values
-    let formPlaceholder = {
-        name: '',
-        imageURL: '',
-        infoURL: '',
-        isPet: ''
+    // now lets setup the useFormInputState varaibles for this forms values of 
+    // 'name', 'species', 'infoURL' and 'image', 'isPet' will be looked into
+    const { value: name, setValue: setName, bind: bindName, reset: resetName } = useFormInputState('')
+    const { value: species, setValue: setSpecies, bind: bindSpecies, reset: resetSpecies } = useFormInputState('')
+    const { value: isPet, setValue: setIsPet, checkBind: checkIsPet, reset: resetIsPet } = useFormInputState(false)
+
+    //because image is set from an uploaded file we need to pass down the binder and the setter to the ImageFormInput componenet
+    const { value: image, setValue: setImage, bind: bindImage, reset: resetImage } = useFormInputState('')
+    const { value: infoURL, setValue: setInfoURL, bind: bindInfoURL, reset: resetInfoURL } = useFormInputState('')
+
+    // creating a function to call all the reset functions
+    const resetValues = (...resetterList) => {
+        // first make sure we have arguments, then for each item in the arguments
+        // we will check if its a function and then run it
+        if (resetterList.length > 0) {
+            for (let item in resetterList) if (typeof item == "function") item()
+        }
     }
+
+    //if we have something in hideForm[2] (the object to edited) then lets set those values
+    // as the forms values for default options when opening the editing form
+
     if (hideForm[2]) {
-        formPlaceholder = { ...formPlaceholder, ...hideForm[2] }
+        // to stop infinite setting and looping we add a conditonal check
+        // if the name we are setting is already the same as the one we are setting
+        // then we will not reset the values because we know all the other values have been set
+        if (name === hideForm[2].name) {
+
+        } else {
+            setName(hideForm[2].name)
+            setSpecies(hideForm[2].type)
+            setIsPet(hideForm[2].isPet)
+            setInfoURL(hideForm[2].infoURL)
+        }
     }
 
     // now lets intilize any materilize functionality I need with a useEffect function with no dependancies
@@ -29,22 +55,20 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
         M.AutoInit()
     }, [])
 
-
-
     // function to update the selected creature
     // callback function to update an element in the data and set it to the data
     function updateCreature(event, index) {
         event.preventDefault()
 
         // will eventually get this info from a form, for testing lets start with a static object
-        const form = event.target
+        // const form = event.target
         const updatedCreature = {
             id: cuid(),
-            name: form.name.value.trim(),
-            type: form.type.value,
-            imageURL: form.imageURL.value.trim(),
-            infoURL: form.infoURL.value.trim(),
-            isPet: (form.isPet.checked) ? true : false,
+            name: name.trim(),
+            type: species,
+            imageURL: image,
+            infoURL: infoURL.trim(),
+            isPet: isPet,
         }
 
         // get a reference to the array postion of the item in data from the attribute
@@ -62,7 +86,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     }
 
     //handleSubmit event will take care of adding the specified object into the localStorage
-    function handleSubmit(event) {
+    const handleSubmit = event => {
         // stop the normal functionality of a form submitting
         event.preventDefault()
 
@@ -71,56 +95,58 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
         if (edit) {
             updateCreature(event, hideForm[1])
         } else {
-            // get a reference to the form and map its values to a new object
-            const form = event.target
-            // must add validation to form values? materilize-css may already do this
+            // since we use the useFormInputState function we can just set those values in the form
+            // after doing a little validation for proper values? materilize-css may already do this
             const newOrganism = {
                 id: cuid(),
-                name: form.name.value.trim(),
-                type: form.type.value,
-                imageURL: form.imageURL.value.trim(),
-                infoURL: form.infoURL.value.trim(),
-                isPet: (form.isPet.checked) ? true : false,
+                name: name.trim(),
+                type: species,
+                imageURL: image,
+                infoURL: infoURL.trim(),
+                isPet: isPet,
             }
 
             //using the setter function we can set the datasource and then navigate away using the useHistory
             setter([...data, newOrganism])
             history.push('/')
         }
+        resetValues(resetName, resetSpecies, resetIsPet, resetImage, resetInfoURL)
     }
+
+
+    const handleFormOnChange = (event) => event.preventDefault()
 
     return (
         <div className={`CreatureForm row ${hideForm[0]}`}>
-            <form className="col s12" onSubmit={handleSubmit}>
+            <form className="col s12" onSubmit={handleSubmit} onChange={handleFormOnChange}>
                 <div className="row">
                     <div className="input-field col s12">
-                        <input placeholder="Name" id="name" type="text" className="validate" defaultValue={formPlaceholder.name} required />
+                        <input id="name" type="text" className="validate" {...bindName} required />
                         <label htmlFor="name" data-error="No name set">Name</label>
                     </div>
                 </div>
                 <div className="row">
                     <div className="input-field col s6">
-                        <select name="type" id="type">
+                        <select name="type" id="type" {...bindSpecies}>
                             {types}
                         </select>
-                        <label htmlFor="type">Creature Type</label>
+                        <label htmlFor="type">Species</label>
                     </div>
                     <div className="input-field col s6">
                         <label>
-                            <input name="isPet" type="checkbox" id="isPet" className="filled-in" defaultValue="true" />
+                            <input name="isPet" type="checkbox" id="isPet" className="filled-in" {...checkIsPet} />
                             <span>Is this your pet?</span>
                         </label>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="input-field col s12">
-                        <input id="imageURL" type="url" className="validate" defaultValue={formPlaceholder.imageURL} />
-                        <label htmlFor="imageURL">Picture Link</label>
+                    <div className="file-field input-field col s12">
+                        <ImageFormInput setter={setImage} binder={bindImage} />
                     </div>
                 </div>
                 <div className="row">
                     <div className="input-field col s12">
-                        <input id="infoURL" type="url" className="validate" defaultValue={formPlaceholder.infoURL} />
+                        <input id="infoURL" type="url" className="validate" {...bindInfoURL} />
                         <label htmlFor="infoURL">Info Link</label>
                     </div>
                 </div>
