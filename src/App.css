@@ -6488,4 +6488,10 @@ html {
 .hidden {
   display: none; }
 
+.formButtons {
+  display: flex;
+  flex-direction: column; }
+  .formButtons .row button, .formButtons .row a {
+    width: 100%; }
+
 /*# sourceMappingURL=App.css.map */

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useEffect, createRef } from 'react'
+import { useHistory, Link } from 'react-router-dom'
 import M from 'materialize-css'
 import cuid from 'cuid'
 import useFormInputState from '../hooks/useFormInputState'
@@ -9,6 +9,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     // first lets initlize the types array and map all the names ianto html elements also get a reference to the history
     // set up all the types we want for our list items
     const CREATURE_TYPES = ['Mammal', 'Reptile', 'Bird', 'Fish', 'Amphibian', 'Insect', 'Arachnid', 'Plant', 'Fungus']
+    const formRef = createRef()
     const types = CREATURE_TYPES.map((type, index) =>
         <option value={type} key={`type_${index}`}>{type.toUpperCase()}</option>
     )
@@ -41,6 +42,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
         // if the name we are setting is already the same as the one we are setting
         // then we will not reset the values because we know all the other values have been set
         if (name === hideForm[2].name) {
+            M.updateTextFields()
 
         } else {
             setName(hideForm[2].name)
@@ -116,45 +118,66 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
 
     const handleFormOnChange = (event) => event.preventDefault()
 
+    const handleCancel = (function (callback) {
+        return ev => {
+            if (callback) callback(['hidden', null, null])
+        }
+    })(setHideForm)
+
     return (
-        <div className={`CreatureForm row ${hideForm[0]}`}>
-            <form className="col s12" onSubmit={handleSubmit} onChange={handleFormOnChange}>
-                <div className="row">
-                    <div className="input-field col s12">
-                        <input id="name" type="text" className="validate" {...bindName} required />
-                        <label htmlFor="name" data-error="No name set">Name</label>
+        <div className={`card-panel teal col s10 ${hideForm[0]}`} ref={formRef}>
+
+            <div className={`CreatureForm row`}>
+                <form className="col s12" onSubmit={handleSubmit} onChange={handleFormOnChange}>
+                    <div className="col s10">
+                        <div className="row">
+                            <div className="input-field col s12">
+                                <input id="name" type="text" className="validate" {...bindName} required />
+                                <label htmlFor="name" data-error="No name set" className="active">Name</label>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="input-field col s12">
+                                <input id="infoURL" type="url" className="validate" {...bindInfoURL} />
+                                <label htmlFor="infoURL" className="active">Info Link</label>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="file-field input-field col s12">
+                                <ImageFormInput setter={setImage} binder={bindImage} />
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="input-field col s8">
+                                <select name="type" id="type" {...bindSpecies}>
+                                    {types}
+                                </select>
+                                <label htmlFor="type">Species</label>
+                            </div>
+                            <div className="input-field col s4">
+                                <label>
+                                    <input name="isPet" type="checkbox" id="isPet" className="filled-in" {...checkIsPet} />
+                                    <span>Is this your pet?</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="input-field col s6">
-                        <select name="type" id="type" {...bindSpecies}>
-                            {types}
-                        </select>
-                        <label htmlFor="type">Species</label>
+
+                    <div className="col s2 formButtons">
+                        <div className="row ">
+                            <button className="btn waves-effect waves-light" type="submit">
+                                <i className="material-icons right">send</i></button>
+                        </div>
+                        <div className="row">
+                            <Link to="/" onClick={handleCancel} className="btn waves-effect waves-light">
+                                <i className="material-icons right">cancel</i>
+                            </Link>
+                        </div>
                     </div>
-                    <div className="input-field col s6">
-                        <label>
-                            <input name="isPet" type="checkbox" id="isPet" className="filled-in" {...checkIsPet} />
-                            <span>Is this your pet?</span>
-                        </label>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="file-field input-field col s12">
-                        <ImageFormInput setter={setImage} binder={bindImage} />
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="input-field col s12">
-                        <input id="infoURL" type="url" className="validate" {...bindInfoURL} />
-                        <label htmlFor="infoURL">Info Link</label>
-                    </div>
-                </div>
-                <div className="row">
-                    <button className="btn waves-effect waves-light" type="submit">submit
-                    <i className="material-icons right">send</i></button>
-                </div>
-            </form>
+
+                </form>
+            </div>
         </div>
     )
 }

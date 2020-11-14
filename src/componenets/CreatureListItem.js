@@ -1,6 +1,7 @@
 import React from 'react'
 import defaultImage from '../static/images/testLeaf.svg'
 
+
 function CreatureListItem({ data, setter, setHideForm }) {
 
     // callback function to delete an item in the data when teh user clicks a button
@@ -41,12 +42,14 @@ function CreatureListItem({ data, setter, setHideForm }) {
                     {infoLink}
                 </p>
                 <div className="secondary-content row">
-                    <button className="waves-effect waves-light btn col s6" data-target={index} onClick={displayCreatureForm}>
-                        <i className="material-icons">edit</i>
-                    </button>
-                    <button className="waves-effect waves-light btn col s6" data-target={index} onClick={deleteCreature}>
-                        <i className="material-icons">delete</i>
-                    </button>
+                    <div className="btn-box">
+                        <button className="waves-effect waves-light btn col s6" data-target={index} onClick={displayCreatureForm}>
+                            <i className="material-icons right">edit</i>Edit
+                        </button>
+                        <button className="waves-effect waves-light btn col s6" data-target={index} onClick={deleteCreature}>
+                            <i className="material-icons right">delete</i>Delete
+                        </button>
+                    </div>
                 </div>
                 {petBadge}
             </li>

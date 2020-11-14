@@ -11,3 +11,13 @@
 .hidden{
     display: none;
 }
+
+.formButtons{
+    display: flex;
+    flex-direction: column;
+    .row{
+        button, a{
+            width: 100%;
+        }
+    }
+}
