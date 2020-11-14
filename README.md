@@ -53,3 +53,4 @@
 
 - IDEA-01 : Switch from imageURL input to a photo upload to base64 encoded string. Also create a custom hook, or just use a hook for the form values on change to pass around the base64 string
 - STYLE-01 : Branch to start styling the assignment on without breaking the main
+- STYLE-02 : Because I forgot netlify and the cancel button for the form, I will merge STYLE-01 onto main
