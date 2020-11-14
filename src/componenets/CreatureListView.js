@@ -19,10 +19,6 @@ function CreatureList({ data, setter }) {
         </div>
     )
 
-    // now that we know we have data lets set up our editing form and elements
-    // create a ref to be use by the CreatureForm
-    // const formRef = createRef()
-
     // now return the full collection with the creatureElements
     return (
         <div className="CreatureList">

@@ -28,7 +28,7 @@ function CreatureListItem({ data, setter, setHideForm }) {
 
         // conditonal rendering for the collection item dpeending on properties set like
         // image url we wil display those properties
-        const img = (creature.imageURL) ? creature.imageURL : defaultImage
+        const img = (creature.imageURL) ? `data:image/png;base64, ${creature.imageURL}` : defaultImage
         const infoLink = (creature.infoURL) ? (<a href={creature.infoURL}>Info Page</a>) : null
         const petBadge = (creature.isPet) ? (<span className="badge"><i className="material-icons">star</i></span>) : null
 

@@ -9,7 +9,6 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     // first lets initlize the types array and map all the names ianto html elements also get a reference to the history
     // set up all the types we want for our list items
     const CREATURE_TYPES = ['Mammal', 'Reptile', 'Bird', 'Fish', 'Amphibian', 'Insect', 'Arachnid', 'Plant', 'Fungus']
-    // const FILE_TYPES = 'image/jpeg, image/jpg, image/png, image/bmp'
     const types = CREATURE_TYPES.map((type, index) =>
         <option value={type} key={`type_${index}`}>{type.toUpperCase()}</option>
     )

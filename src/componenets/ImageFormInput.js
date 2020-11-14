@@ -15,44 +15,19 @@ export default class ImageFormInput extends Component {
     // based on this article: https://medium.com/@blturner3527/storing-images-in-your-database-with-base64-react-682f5f3921c2
     handleFileChange(ev) {
         const file = ev.target.files[0]
-        // console.log(ev.target)
 
         // after confirming the file exists in event.currentTarget.files[0] (since only one file at a time)
         // using a FileReader object: https://developer.mozilla.org/en-US/docs/Web/API/FileReader
         // I can asynchronously read the contents of a file, in this case an image and readAsBinaryString
         // after listening for the load event with FileReader.onLoad
         if (file) {
-            const fileReader = new FileReader()
-            // fileReader.addEventListener('load', ({ target }) => imageSetter(`data:image/png;base64${btoa(target.result)}`))
-            // fileReader.onload = ({ target }) => this.setter(`data:image/png;base64${btoa(target.result)}`)(this.setter)
-            // fileReader.onload = ({ target }) => {
-            //     console.log(`data:image/png;base64${btoa(target.result)}`)
-            //     // setter(`data:image/png;base64${btoa(target.result)}`)
-            // }
-            // let dataString = ''
-            // fileReader.onload = (function (binaryString) {
-            //     return function ({ target }) {
-            //         // data = `data:image/png;base64${btoa(target.result)}`
-            //         binaryString = `data:image/png;base64${btoa(target.result)}`
-            //         // setter(dataString)
-            //     }
-            // })(dataString);
-            // console.log(dataString)
-            // fileReader.onload = ({ target }) => {
-            //     // let target = ev.target
-            //     // console.log(ev)
-            //     // target.binaryString = `${btoa(target.result)}`
-            //     dataString = `${btoa(target.result)}`
-            // }
-
             // callback function for the successful reading of a file
             // will get the binary string from the currentTarget.result
             // and will use the binary to ascii function to convert it
             // to something we can store in the database, using an arrow function
-            fileReader.onload = ({ target }) => this.setter(`data:image/png;base64${btoa(target.result)}`)
+            const fileReader = new FileReader()
+            fileReader.onload = ({ target }) => this.setter(`${btoa(target.result)}`)
             fileReader.readAsBinaryString(file)
-            // console.log(dataString)
-            // setImage(fileReader.binaryString)
         }
     }
 
