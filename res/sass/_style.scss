@@ -13,11 +13,24 @@
 }
 
 .formButtons{
-    display: flex;
-    flex-direction: column;
+    @include center(column);
+    justify-content: center;
+    background-color: rebeccapurple;
+    height: 100%;
     .row{
         button, a{
             width: 100%;
         }
     }
+}
+
+//change the colours of text inside the inputs
+input, select, option {
+    color: white;
+}
+
+//style the collection items
+.btn-box{
+    @include center(column);
+    height: 100%;
 }

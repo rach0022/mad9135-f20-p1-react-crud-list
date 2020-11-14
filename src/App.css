@@ -6490,8 +6490,23 @@ html {
 
 .formButtons {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-content: center;
+  background-color: rebeccapurple;
+  height: 100%; }
   .formButtons .row button, .formButtons .row a {
     width: 100%; }
+
+input, select, option {
+  color: white; }
+
+.btn-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%; }
 
 /*# sourceMappingURL=App.css.map */

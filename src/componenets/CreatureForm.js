@@ -10,8 +10,9 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     // set up all the types we want for our list items
     const CREATURE_TYPES = ['Mammal', 'Reptile', 'Bird', 'Fish', 'Amphibian', 'Insect', 'Arachnid', 'Plant', 'Fungus']
     const formRef = createRef()
+    const selectRef = createRef()
     const types = CREATURE_TYPES.map((type, index) =>
-        <option value={type} key={`type_${index}`}>{type.toUpperCase()}</option>
+        <option value={type} key={`type_${index}`} className="deep-purple">{type.toUpperCase()}</option>
     )
     const history = useHistory()
 
@@ -45,10 +46,12 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
             M.updateTextFields()
 
         } else {
+            //first set the values as the old values
             setName(hideForm[2].name)
             setSpecies(hideForm[2].type)
             setIsPet(hideForm[2].isPet)
             setInfoURL(hideForm[2].infoURL)
+
         }
     }
 
@@ -125,9 +128,8 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     })(setHideForm)
 
     return (
-        <div className={`card-panel teal col s10 ${hideForm[0]}`} ref={formRef}>
-
-            <div className={`CreatureForm row`}>
+        <div className={`card-panel deep-purple col s11 ${hideForm[0]}`} ref={formRef}>
+            <div className={`CreatureForm deep-purple row`}>
                 <form className="col s12" onSubmit={handleSubmit} onChange={handleFormOnChange}>
                     <div className="col s10">
                         <div className="row">
@@ -150,7 +152,7 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
                         </div>
                         <div className="row">
                             <div className="input-field col s8">
-                                <select name="type" id="type" {...bindSpecies}>
+                                <select name="type" id="type" {...bindSpecies} ref={selectRef}>
                                     {types}
                                 </select>
                                 <label htmlFor="type">Species</label>
@@ -163,8 +165,8 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
                             </div>
                         </div>
                     </div>
-
-                    <div className="col s2 formButtons">
+                    <div className="col s1"></div>
+                    <div className="col s1 formButtons">
                         <div className="row ">
                             <button className="btn waves-effect waves-light" type="submit">
                                 <i className="material-icons right">send</i></button>

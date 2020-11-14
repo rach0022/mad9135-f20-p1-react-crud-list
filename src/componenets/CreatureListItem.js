@@ -43,10 +43,10 @@ function CreatureListItem({ data, setter, setHideForm }) {
                 </p>
                 <div className="secondary-content row">
                     <div className="btn-box">
-                        <button className="waves-effect waves-light btn col s6" data-target={index} onClick={displayCreatureForm}>
+                        <button className="btn col s6" data-target={index} onClick={displayCreatureForm}>
                             <i className="material-icons right">edit</i>Edit
                         </button>
-                        <button className="waves-effect waves-light btn col s6" data-target={index} onClick={deleteCreature}>
+                        <button className="btn col s6" data-target={index} onClick={deleteCreature}>
                             <i className="material-icons right">delete</i>Delete
                         </button>
                     </div>
