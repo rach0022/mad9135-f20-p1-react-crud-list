@@ -36,7 +36,7 @@
 
 ## Look into:
 
-- [ ] can we somehow get users to upload photos to the website local storage
+- [x] can we somehow get users to upload photos to the website local storage | convert to base 64 image string using a FileREader and also I needed to use a React class componenet so I could add a context of this to the function and get the setImage function to be used inside the onLoad event
 - [ ] add a location field? users can give access to their current location and input that field?
 
 ## Bugs:
