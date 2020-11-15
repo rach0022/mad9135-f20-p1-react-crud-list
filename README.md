@@ -53,6 +53,7 @@
 - [ ] styling looks a little wedird, but lets submit for now and come back and finish if I get time
 - [x] cannot edit the name value because of how I set my value? Do I just say to users that we cannot change the name after setting? | use setForm to set the third entry to null
 - [x] image will get wiped out if not set when editing | check if there is an image value and if there isnt set it to the old one
+- [ ] styles look different on Netlify, why? Could it be the lack of HashRouter?
 
 ## Branches:
 
