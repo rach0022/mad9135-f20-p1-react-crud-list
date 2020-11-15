@@ -133,10 +133,10 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
     })(setHideForm)
 
     return (
-        <div className={`card-panel ${colourClass} col s11 ${hideForm[0]}`}>
-            <div className={`CreatureForm ${colourClass} row`}>
+        <div className={`card-panel ${colourClass} col s12  ${hideForm[0]}`}>
+            <div className={`CreatureForm ${colourClass}  row`}>
                 <form className="col s12" onSubmit={handleSubmit} onChange={handleFormOnChange}>
-                    <div className="col s8">
+                    <div className="col s10">
                         <div className="row">
                             <div className="input-field col s12">
                                 <input id="name" type="text" className="validate" {...bindName} required />
@@ -165,16 +165,17 @@ function CreatureForm({ data, setter, edit, hideForm, setHideForm }) {
                             <div className="input-field col s4">
                                 <label>
                                     <input name="isPet" type="checkbox" id="isPet" className="filled-in" {...checkIsPet} />
-                                    <span>Is this your pet?</span>
+                                    <span className="white-text">Favourite?</span>
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div className="col s4 btnCol">
+                    <div className="col s2 right-align btnCol">
                         <div className="formButtons">
-                            <div className="row ">
+                            <div className="row">
                                 <button className="btn waves-effect waves-light" type="submit">
-                                    <i className="material-icons right">send</i>Submit</button>
+                                    <i className="material-icons right">send</i>Send
+                                </button>
                             </div>
                             <div className="row">
                                 <Link to="/" onClick={handleCancel} className="btn waves-effect waves-light">

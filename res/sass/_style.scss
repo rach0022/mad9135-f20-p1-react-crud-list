@@ -53,28 +53,48 @@
     }
 }
 
-
-
-
-
+// appnavigation bar
+.brand-logo{
+    img{
+        width: 125px;
+        height: auto;
+        filter: saturate(1.5);
+        @media (min-width: $mobile-breakpoint) {
+            width: 150px;
+        }
+    }
+}
 //btnCol is the selector the column of submit and cancel
 // buttons in the form
 .btnCol{
-    height: 100%;
-    display: grid;
-    place-items: center;
-
+    max-height: 50px;
+    min-width: 80vw;
     // formbuttons is the selector for the btn box holding the btns
     .formButtons{
         // @include center(column);
         // justify-content: center;
-        overflow-x: hidden;
-        background-color: rebeccapurple;
-        height: 100%;
+        // display: grid;
+        // place-items: center;
+        // justify-content: center;
+        display: flex;
+        // flex-flow: column nowrap;
+        justify-content: space-between;
+        flex-direction: row;
+        
+        
         .row{
             button, a{
-                width: 100%;
+                width: $button-width - 125px;
             }
+        }
+    }
+    //tablet view
+    @media (min-width: $mobile-breakpoint) {
+        min-width: inherit;
+        .formButtons{
+            align-items: center;
+            flex-direction: column;
+            height: 90px;
         }
     }
 }
@@ -88,7 +108,4 @@ input, select, option {
 // overriding the colours for the materlize-css componenets
 html{
     background-color: $light-shade;
-}
-
-.collection-item{
 }

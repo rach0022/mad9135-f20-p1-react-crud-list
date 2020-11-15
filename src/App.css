@@ -6538,16 +6538,30 @@ html {
     .collection-item .secondary-content .btn-box .edit-btn {
       margin-bottom: 2px; }
 
+.brand-logo img {
+  width: 125px;
+  height: auto;
+  filter: saturate(1.5); }
+  @media (min-width: 768px) {
+    .brand-logo img {
+      width: 150px; } }
+
 .btnCol {
-  height: 100%;
-  display: grid;
-  place-items: center; }
+  max-height: 50px;
+  min-width: 80vw; }
   .btnCol .formButtons {
-    overflow-x: hidden;
-    background-color: rebeccapurple;
-    height: 100%; }
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row; }
     .btnCol .formButtons .row button, .btnCol .formButtons .row a {
-      width: 100%; }
+      width: 125px; }
+  @media (min-width: 768px) {
+    .btnCol {
+      min-width: inherit; }
+      .btnCol .formButtons {
+        align-items: center;
+        flex-direction: column;
+        height: 90px; } }
 
 input, select, option {
   color: white; }
